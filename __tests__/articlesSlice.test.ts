@@ -1,17 +1,19 @@
 import {configureStore} from '@reduxjs/toolkit';
 
-import {articlesReducer, loadArticles, setQuery} from '../src/store/slices/articlesSlice';
+import {
+  articlesReducer,
+  loadArticles,
+  setQuery,
+} from '../src/store/slices/articlesSlice';
 import {favoritesReducer} from '../src/store/slices/favoritesSlice';
-
+import {describe, expect, it, jest} from '@jest/globals';
 import type {Article} from '../src/types/Article';
+import {fetchLatestArticles as mockFetchLatestArticles} from '../src/api/newsApi';
+jest.mock('../src/api/newsApi');
 
-jest.mock('../src/api/newsApi', () => ({
-  fetchLatestArticles: jest.fn(),
-}));
-
-const {fetchLatestArticles} = jest.requireMock('../src/api/newsApi') as {
-  fetchLatestArticles: jest.Mock;
-};
+const fetchLatestArticles = mockFetchLatestArticles as jest.MockedFunction<
+  typeof mockFetchLatestArticles
+>;
 
 describe('articlesSlice', () => {
   it('debería cargar artículos en base a la query', async () => {
