@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type {RootState} from '../store';
-import {loadFavoriteKeys, saveFavoriteKeys} from '../../storage/favoritesStorage';
+import type { RootState } from '../store';
+import { loadFavoriteKeys, saveFavoriteKeys } from '../../storage/favoritesStorage'
 
 type FavoritesState = {
   keys: string[];
@@ -51,7 +51,7 @@ const slice = createSlice({
   },
 });
 
-export const {toggleFavoriteKey} = slice.actions;
+export const { toggleFavoriteKey } = slice.actions;
 export const favoritesReducer = slice.reducer;
 
 export const selectFavoriteKeys = (state: RootState) => state.favorites.keys;
