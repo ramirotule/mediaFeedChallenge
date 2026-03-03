@@ -1,4 +1,5 @@
 import {favoritesReducer, toggleFavoriteKey} from '../src/store/slices/favoritesSlice';
+import {describe, expect, it} from '@jest/globals';
 
 describe('favoritesSlice', () => {
   it('toggle agrega y quita una key', () => {
