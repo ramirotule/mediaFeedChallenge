@@ -19,10 +19,10 @@ const initialState: ArticlesState = {
 };
 
 export const loadArticles = createAsyncThunk('articles/load', async (_, api) => {
-  const state = api.getState() as RootState;
-  const query = state.articles.query;
-  const items = await fetchLatestArticles(query);
-  return items;
+    const state = api.getState() as RootState;
+    const query = state.articles.query;
+    const items = await fetchLatestArticles(query);
+    return items;
 });
 
 const slice = createSlice({
@@ -44,7 +44,7 @@ const slice = createSlice({
       })
       .addCase(loadArticles.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = state.items.concat(action.payload);
+        state.items = action.payload;
       })
       .addCase(loadArticles.rejected, (state, action) => {
         state.status = 'failed';
