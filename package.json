@@ -1,5 +1,5 @@
 {
-  "name": "MediaFeedChallenge",
+  "name": "media-feed-challenge",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,7 +8,9 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "test:coverage": "jest --coverage --watchAll=false"
+    "test:coverage": "jest --coverage --watchAll=false",
+    "build:android": "cd android && ./gradlew assembleRelease",
+    "build:ios": "react-native build-ios --mode release"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
