@@ -14,7 +14,7 @@ type Props = {
 export function ArticleListItem({article, onPress}: Props) {
   const dispatch = useAppDispatch();
 
-  const favoriteKey = article.title;
+  const favoriteKey = String(article.id);
   const isFavorite = useAppSelector(s => s.favorites.keys.includes(favoriteKey));
 
   return (

@@ -28,7 +28,7 @@ export function FavoritesScreen({navigation}: Props) {
   }, [dispatch, favoriteKeys, hydrated]);
 
   const favoriteArticles = useMemo(() => {
-    return articles.filter(a => favoriteKeys.includes(a.title));
+    return articles.filter(a => favoriteKeys.includes(String(a.id)));
   }, [articles, favoriteKeys]);
 
   if (!hydrated) {
