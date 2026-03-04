@@ -19,10 +19,7 @@ export function ArticleDetailScreen({route}: Props) {
     s.articles.items.find(a => a.id === articleId),
   );
 
-  const videoUrl = useMemo(() => {
-    // Si no hay video, mostramos uno fijo
-    return article?.videoUrl ?? FALLBACK_VIDEO_URL;
-  }, [article?.videoUrl]);
+  const videoUrl = article?.videoUrl ? article.videoUrl : FALLBACK_VIDEO_URL
 
   if (!article) {
     return (
