@@ -33,12 +33,12 @@ export function FeedScreen({navigation}: Props) {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    dispatch(loadArticles());
+    const handler = setTimeout(() => {
+      dispatch(loadArticles());
+    }, 200);
+    return () => clearTimeout(handler);
   }, [dispatch, query]);
 
-  useEffect(() => {
-    dispatch(loadArticles());
-  }, [dispatch]);
 
   const data = useMemo(() => {
     return articles;
@@ -85,7 +85,8 @@ export function FeedScreen({navigation}: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {flex: 1, 
+  },
   search: {
     margin: 12,
     borderWidth: 1,
