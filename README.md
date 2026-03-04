@@ -18,7 +18,6 @@
 - [Decisiones Técnicas](#decisiones-técnicas)
 - [Uso de IA](#uso-de-ia)
 - [Problemas de Compilación (Android/iOS)](#problemas-detectados-durante-la-compilación)
-- [Assets](#assets)
 
 ---
 
@@ -98,7 +97,16 @@ npm run ios
 src
  ├── api
  │   └── newsApi.ts (Lógica de llamadas a API)
- │
+ ├── assets (Images of errors and IA prompts)
+ │   ├── errores
+ │   │   └── error-1.png
+ │   │   └── error-2.png
+ │   │   └── error-3.png
+ │   ├── IA 
+ │   │   └── error-ios.png
+ │   │   └── prompt-documentacion.png
+ │   └── tests
+ │       └── test-coverage.png  
  ├── store
  │   ├── slices (Reducers y acciones de Redux)
  │   └── store.ts (Configuración de la tienda)
@@ -144,7 +152,8 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 **Ubicación:** `src/store/slices/favoritesSlice.ts`  
 **Problema:** Falta la implementación del almacenamiento (storage).  
 **Impacto:** Crash durante la hidratación de favoritos.
-⬆️ [Ir al Fix 1](#fix-1--persistencia-de-favoritos)
+
+🩹 [Ir al Fix 1](#fix-1--persistencia-de-favoritos)
 
 
 ### 2 — Duplicación de artículos en el Store
@@ -152,32 +161,35 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 **Ubicación:** `src/store/slices/articlesSlice.ts`  
 **Problema:** Uso de `state.items.concat(...)` sin limpiar el estado anterior.  
 **Impacto:** Duplicación infinita y degradación del rendimiento.
-⬆️ [Ir al Fix 2](#fix-2--búsqueda-con-debounce)
+
+🩹 [Ir al Fix 2](#fix-2--búsqueda-con-debounce)
 
 ### 3 — Falta de Debounce en la búsqueda
 
 **Ubicación:** `src/features/feed/screens/FeedScreen.tsx`  
 **Problema:** Las peticiones a la API se disparan con cada pulsación de tecla.  
 **Impacto:** Tráfico de red excesivo y condiciones de carrera (race conditions).
-⬆️ [Ir al Fix 3](#fix-3--búsqueda-con-debounce)
+
+🩹 [Ir al Fix 3](#fix-3--reemplazo-en-lugar-de-concatenación)
 
 ### 4 — Duplicación de favoritos en la interfaz
 
 **Ubicación:** `src/features/favorites/screens/FavoritesScreen.tsx`  
 **Problema:** Los favoritos se identificaban por `title` en lugar de un ID único.
-⬆️ [Ir al Fix 4](#fix-4--búsqueda-con-debounce)
+
+🩹 [Ir al Fix 4](#fix-4--claves-de-favoritos-únicas)
 
 ### 5 — URL de video fija (Hardcoded)
 
 **Ubicación:** `src/api/newsApi.ts`  
-**Problema:** Todos los artículos utilizaban el mismo video.    
-⬆️ [Ir al Fix 5](#fix-5--búsqueda-con-debounce)
+**Problema:** Todos los artículos utilizaban el mismo video.
+
+🩹 [Ir al Fix 5](#fix-5--videos-dinámicos)
 
 ### 6 — Podfile de iOS corrupto
 
 **Ubicación:** `ios/Podfile`  
 **Impacto:** Fallo al ejecutar `pod install` debido a un workaround obsoleto.
-⬆️ [Ir al Fix 6](#fix-6--búsqueda-con-debounce)
 
 ⬆️ [Volver al índice](#tabla-de-contenidos)
 
@@ -228,7 +240,7 @@ Todos los tests pasan correctamente.
 - `FavoritesScreen.test.tsx`
 - `favoritesSlice.test.ts`
 
-### Resultado de los Test:
+### Resultado del Test Coverage:
 
 ![Test Coverage](src/assets/test/test-coverage.png)
 
@@ -282,33 +294,13 @@ Todas las decisiones arquitectónicas y de depuración finales se tomaron manual
 ## iOS
 
 1. **Error en Podfile:**
-   - **Solución:** Reparación del `Podfile` eliminando workarounds antiguos incompatibles. ([Ver solución](Fixing%20pod%20install%20error.md)).
-
+   - **Solución:** Reparación del `Podfile` eliminando workarounds antiguos incompatibles. ([Ver solución](src/prompt-pod-issue.md)).
 2. **Crash al iniciar (bundleURL):**
-   - **Solución:** Renombrar el método en `AppDelegate.mm` a `bundleURL` para compatibilidad con React Native 0.74+. ([Ver solución](Fixing%20ios%20crash%20error.md)).
+   - **Solución:** Renombrar el método en `AppDelegate.mm` a `bundleURL` para compatibilidad con React Native 0.74+. ([Ver solución](src/prompt-app-ios-crash.md)).
 
 ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
-
-# Assets
-
-El repositorio incluye una carpeta `assets` con capturas de pantalla de los errores detectados y el proceso de documentación.
-
-```text
-assets
- └── errores
-      └── error-1.png
-      └── error-2.png
-      └── error-3.png
- └── IA 
-      └── prompt-documentacion.png
- └── tests
-      └── test-coverage.png   
-```
-
-⬆️ [Volver al índice](#tabla-de-contenidos)
-
 # Preguntas & Respuestas
 **1. Qué partes del desarrollo resolviste con ayuda de IA y cuáles de manera manual.**
 - **IA:** La usé principalmente para el análisis inicial de los errores de compilación (especialmente el `Podfile` de iOS que estaba corrupto) y para organizar las notas de los bugs detectados durante el testing manual (QA). También me sugirió estructuras base para los mocks de `AsyncStorage` en los tests.
