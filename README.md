@@ -17,7 +17,7 @@
 - [Estrategia de Testing](#estrategia-de-testing)
 - [Decisiones Técnicas](#decisiones-técnicas)
 - [Uso de IA](#uso-de-ia)
-- [Problemas de Compilación (Android/iOS)](#problemas-de-compilación)
+- [Problemas de Compilación (Android/iOS)](#problemas-detectados-durante-la-compilación)
 - [Assets](#assets)
 
 ---
@@ -34,6 +34,8 @@ El desafío se centra en evaluar la capacidad de:
 - Añadir pruebas unitarias.
 - Utilizar la IA **como herramienta**, no como reemplazo del juicio de ingeniería.
 
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Stack Tecnológico
@@ -47,6 +49,8 @@ El desafío se centra en evaluar la capacidad de:
 - react-native-video
 - Jest
 - React Native Testing Library
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -84,6 +88,8 @@ npm start
 npm run ios
 ```
 
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Estructura del Proyecto
@@ -109,6 +115,8 @@ src
      └── Wrapper de AsyncStorage
 ```
 
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Mi Solución
@@ -125,6 +133,8 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 - **Persistencia de favoritos confiable mediante AsyncStorage.**
 - **Funcionalidad de "Salir" añadida al Tab Bar.**
 
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Bugs Detectados
@@ -134,33 +144,42 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 **Ubicación:** `src/store/slices/favoritesSlice.ts`  
 **Problema:** Falta la implementación del almacenamiento (storage).  
 **Impacto:** Crash durante la hidratación de favoritos.
+⬆️ [Ir al Fix 1](#fix-1--persistencia-de-favoritos)
+
 
 ### 2 — Duplicación de artículos en el Store
 
 **Ubicación:** `src/store/slices/articlesSlice.ts`  
 **Problema:** Uso de `state.items.concat(...)` sin limpiar el estado anterior.  
 **Impacto:** Duplicación infinita y degradación del rendimiento.
+⬆️ [Ir al Fix 2](#fix-2--búsqueda-con-debounce)
 
 ### 3 — Falta de Debounce en la búsqueda
 
 **Ubicación:** `src/features/feed/screens/FeedScreen.tsx`  
 **Problema:** Las peticiones a la API se disparan con cada pulsación de tecla.  
 **Impacto:** Tráfico de red excesivo y condiciones de carrera (race conditions).
+⬆️ [Ir al Fix 3](#fix-3--búsqueda-con-debounce)
 
 ### 4 — Duplicación de favoritos en la interfaz
 
 **Ubicación:** `src/features/favorites/screens/FavoritesScreen.tsx`  
 **Problema:** Los favoritos se identificaban por `title` en lugar de un ID único.
+⬆️ [Ir al Fix 4](#fix-4--búsqueda-con-debounce)
 
 ### 5 — URL de video fija (Hardcoded)
 
 **Ubicación:** `src/api/newsApi.ts`  
-**Problema:** Todos los artículos utilizaban el mismo video.
+**Problema:** Todos los artículos utilizaban el mismo video.    
+⬆️ [Ir al Fix 5](#fix-5--búsqueda-con-debounce)
 
 ### 6 — Podfile de iOS corrupto
 
 **Ubicación:** `ios/Podfile`  
 **Impacto:** Fallo al ejecutar `pod install` debido a un workaround obsoleto.
+⬆️ [Ir al Fix 6](#fix-6--búsqueda-con-debounce)
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -181,6 +200,8 @@ Se cambió el identificador de `title` a `String(article.id)`.
 ## Fix 5 — Videos Dinámicos
 Se implementó una lógica de selección basada en el ID: `video = SAMPLE_VIDEOS[id % SAMPLE_VIDEOS.length]`.
 
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Refactorizaciones
@@ -190,6 +211,8 @@ Se simplificó la lógica en `ArticleDetailScreen.tsx` donde el memoing no aport
 
 ### 2 — Mejora de Mocks en Tests
 Se estandarizaron los mocks en `__tests__/articlesSlice.test.ts` para pruebas más predecibles.
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -205,6 +228,12 @@ Todos los tests pasan correctamente.
 - `FavoritesScreen.test.tsx`
 - `favoritesSlice.test.ts`
 
+### Resultado de los Test:
+
+![Test Coverage](src/assets/test/test-coverage.png)
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Decisiones Técnicas
@@ -215,6 +244,8 @@ Se utilizó `createAsyncThunk` para gestionar los flujos de estado asíncronos d
 ### Tipado Estricto
 - IDs de Artículos → `number`
 - Claves de Favoritos → `string`
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -228,6 +259,8 @@ La IA se utilizó como **asistente de desarrollo**, principalmente para:
 - Solución al crash de lanzamiento en iOS ([Ver archivo](Fixing%20ios%20crash%20error.md)).
 
 Todas las decisiones arquitectónicas y de depuración finales se tomaron manualmente.
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -254,6 +287,8 @@ Todas las decisiones arquitectónicas y de depuración finales se tomaron manual
 2. **Crash al iniciar (bundleURL):**
    - **Solución:** Renombrar el método en `AppDelegate.mm` a `bundleURL` para compatibilidad con React Native 0.74+. ([Ver solución](Fixing%20ios%20crash%20error.md)).
 
+⬆️ [Volver al índice](#tabla-de-contenidos)
+
 ---
 
 # Assets
@@ -262,9 +297,17 @@ El repositorio incluye una carpeta `assets` con capturas de pantalla de los erro
 
 ```text
 assets
+ └── errores
+      └── error-1.png
+      └── error-2.png
+      └── error-3.png
  └── IA 
       └── prompt-documentacion.png
+ └── tests
+      └── test-coverage.png   
 ```
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
 # Preguntas & Respuestas
 **1. Qué partes del desarrollo resolviste con ayuda de IA y cuáles de manera manual.**
@@ -288,4 +331,6 @@ assets
 **5. Si usaste código sugerido por IA, qué adaptaciones le hiciste y por qué.**
 - En el código de los tests sugeridos por la IA, tuve que adaptar los mocks porque mi store usa `useAppDispatch` y `useAppSelector` tipados, y la sugerencia genérica no los tomaba en cuenta. Tuve que mockear los hooks de `src/store/hooks.ts` manualmente.
 - En el Podfile, la IA sugirió borrar varias líneas de Flipper, pero yo preferí mantenerlas y ajustarlas para que no rompieran el build, ya que Flipper es útil para debugear red y logs.
+
+⬆️ [Volver al índice](#tabla-de-contenidos)
 
