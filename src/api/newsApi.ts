@@ -21,8 +21,12 @@ type SpaceflightResponse = {
   results: SpaceflightApiArticle[];
 };
 
-const SAMPLE_VIDEO_URL =
-  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+const SAMPLE_VIDEOS = [
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+];
 
 export async function fetchLatestArticles(query: string): Promise<Article[]> {
   // API pública sin auth. Cuando query es vacío, devuelve los últimos artículos.
@@ -34,10 +38,10 @@ export async function fetchLatestArticles(query: string): Promise<Article[]> {
   }
 
   const response = await client.get<SpaceflightResponse>('/articles/', {params});
-
   return response.data.results.map(a => {
     const shouldDropImage = a.id % 5 === 0;
     const shouldHaveVideo = a.id % 7 === 0;
+    console.log("Video ID: ", a.id, " Title: ", a.title, " Debe tener video ?: ", shouldHaveVideo);
 
     return {
       id: a.id,
@@ -48,7 +52,9 @@ export async function fetchLatestArticles(query: string): Promise<Article[]> {
       publishedAt: a.published_at ?? null,
       url: a.url ?? null,
       // Video de ejemplo para algunas noticias
-      videoUrl: shouldHaveVideo ? SAMPLE_VIDEO_URL : null,
+      videoUrl: shouldHaveVideo
+        ? SAMPLE_VIDEOS[Math.floor(Math.random() * SAMPLE_VIDEOS.length)]
+        : null,
     } satisfies Article;
   });
 }
