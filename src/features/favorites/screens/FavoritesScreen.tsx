@@ -50,7 +50,7 @@ export function FavoritesScreen({navigation}: Props) {
   return (
     <FlatList
       data={favoriteArticles}
-      keyExtractor={(_, index) => String(index)}
+      keyExtractor={(item) => String(item.id)}
       renderItem={({item}) => (
         <ArticleListItem
           article={item}
