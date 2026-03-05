@@ -251,9 +251,19 @@ Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/e476ac73d384c0e9
 
 ### 1 — Eliminación de useMemo innecesarios
 Se simplificó la lógica en `ArticleDetailScreen.tsx` donde el memoing no aportaba beneficios.
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/b1a8b2cda04ec7439db1ed2e8f6fb34d04488c62
 
 ### 2 — Mejora de Mocks en Tests
 Se estandarizaron los mocks en `__tests__/articlesSlice.test.ts` para pruebas más predecibles.
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/4dcb75704d6efff41a4be56a2acb16323c9cf676
+
+### 3 — Mejora en la busqueda para que sea mas especifica
+Se realizo una modificacion en el archivo newsAPI para que busque dentro del titulo del articulo todas las palabras que se ingresan en el input de busqueda.
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/ea7276cd9e5c59abc20fb0a70473506129c87946
+
+### 4 — Mejora mensaje cuando no se encuentran articulos
+Se realizo un agregado en la screen de Feeds para que en caso de que no se encuentre el titulo buscado aparezca un mensaje que diga "No hay ninguna noticia que coincida con la búsqueda".
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/f3a322ab47ef4152492ea525e86b9bcace886400
 
 ⬆️ [Volver al índice](#tabla-de-contenidos)
 
