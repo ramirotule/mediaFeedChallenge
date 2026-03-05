@@ -4,6 +4,7 @@ import {
   FlatList,
   RefreshControl,
   StyleSheet,
+  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -28,6 +29,7 @@ export function FeedScreen({navigation}: Props) {
 
   const query = useAppSelector(selectQuery);
   const status = useAppSelector(s => s.articles.status);
+  const error = useAppSelector(s => s.articles.error);
   const articles = useAppSelector(selectArticles);
 
   const [refreshing, setRefreshing] = useState(false);
@@ -42,7 +44,7 @@ export function FeedScreen({navigation}: Props) {
 
   const data = useMemo(() => {
     return articles;
-  }, [articles]);
+  }, [articles]); 
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -79,6 +81,19 @@ export function FeedScreen({navigation}: Props) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        ListEmptyComponent={
+          status !== 'loading' ? (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>
+                {status === 'failed'
+                  ? `Error: ${error || 'No se pudieron cargar las noticias'}`
+                  : query.trim().length > 0
+                  ? 'No hay ninguna noticia que coincida con la búsqueda'
+                  : 'No hay noticias disponibles en este momento.'}
+              </Text>
+            </View>
+          ) : null
+        }
       />
     </View>
   );
@@ -96,4 +111,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   loading: {paddingTop: 20},
+  emptyContainer: {
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
 });
