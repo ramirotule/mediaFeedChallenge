@@ -17,7 +17,8 @@
 - [Estrategia de Testing](#estrategia-de-testing)
 - [Decisiones Técnicas](#decisiones-técnicas)
 - [Uso de IA](#uso-de-ia)
-- [Problemas de Compilación (Android/iOS)](#problemas-detectados-durante-la-compilación)
+- [Problemas de Compilación iOS](#problemas-detectados-durante-la-compilación-en-ios)
+- [Preguntas & Respuestas](#preguntas--respuestas)
 
 ---
 
@@ -112,10 +113,14 @@ src
  ├── features
  │       └── favorites
  │       └── feed
+
+ │       │
  ├── navigation
  │   └── AppNavigator.tsx (Navegación principal)
+ │
  ├── storage
  │   └── favoritesStorage.ts (Almacenamiento de favoritos)
+ │
  ├── store
  │   ├── slices (Reducers y acciones de Redux)
  │   └── store.ts (Configuración de la tienda)
@@ -202,17 +207,41 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 ## Fix 1 — Persistencia de Favoritos
 Se creó `src/storage/favoritesStorage.ts` para manejar correctamente `loadFavoriteKeys()` y `saveFavoriteKeys()`.
 
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/8064dc19f0db0a076f1923fb18f493841f5edb45
+
+
 ## Fix 2 — Búsqueda con Debounce
 Se implementó un `setTimeout` con limpieza (cleanup) para retrasar las búsquedas **500ms**.
+
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/9948d32fd6dc3525fe7d469484a79fe1920941bc
 
 ## Fix 3 — Reemplazo en lugar de Concatenación
 Se cambió `state.items.concat()` por `state.items = action.payload` para evitar duplicación.
 
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/2000e64de075b48a61b752783792011457feb2fc
+
 ## Fix 4 — Claves de Favoritos Únicas
 Se cambió el identificador de `title` a `String(article.id)`.
 
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/839028d937db287e55a2ca60676e3d6dcad09b9e
+
 ## Fix 5 — Videos Dinámicos
 Se implementó una lógica de selección basada en el ID: `video = SAMPLE_VIDEOS[id % SAMPLE_VIDEOS.length]`.
+
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/47aeef4348abf29bc9536e5eee63e9608bb9b8cb
+
+## Fix 6 — Error de Java Home
+Error al intentar correr la aplicación por ruta de Java incorrecta.
+Solución:** Actualizar `gradle.properties` con la ruta correcta en `org.gradle.java.home`.
+
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/77992d25b271ab6505da1a3cdb14e24b6c8e8d30
+
+## Fix 7 — Versión de SDK
+Desajuste en la versión recomendada del SDK.
+Solución:** Actualizar `compileSdkVersion` en `build.gradle`.
+
+Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/e476ac73d384c0e961a1d9fc681be1cf7d63f16b
+
 
 ⬆️ [Volver al índice](#tabla-de-contenidos)
 
@@ -278,25 +307,11 @@ Todas las decisiones arquitectónicas y de depuración finales se tomaron manual
 
 ---
 
-# Problemas Detectados durante la compilación
-
-## Android
-
-1. **Error de Java Home:**
-   - **Problema:** Error al intentar correr la aplicación por ruta de Java incorrecta.
-   - **Solución:** Actualizar `gradle.properties` con la ruta correcta en `org.gradle.java.home`.
-
-2. **Versión de SDK:**
-   - **Problema:** Desajuste en la versión recomendada del SDK.
-   - **Solución:** Actualizar `compileSdkVersion` en `build.gradle`.
-
-3. **Errores en tiempo de ejecución:**
-   - **Solución:** Creación del módulo `favoritesStorage.ts` para evitar fallos en la carga inicial.
-
-## iOS
+# Problemas Detectados durante la compilación en iOS
 
 1. **Error en Podfile:**
    - **Solución:** Reparación del `Podfile` eliminando workarounds antiguos incompatibles. ([Ver solución](src/prompt-pod-issue.md)).
+   
 2. **Crash al iniciar (bundleURL):**
    - **Solución:** Renombrar el método en `AppDelegate.mm` a `bundleURL` para compatibilidad con React Native 0.74+. ([Ver solución](src/prompt-app-ios-crash.md)).
 
