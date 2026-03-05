@@ -34,7 +34,7 @@ El desafío se centra en evaluar la capacidad de:
 - Añadir pruebas unitarias.
 - Utilizar la IA **como herramienta**, no como reemplazo del juicio de ingeniería.
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -50,7 +50,7 @@ El desafío se centra en evaluar la capacidad de:
 - Jest
 - React Native Testing Library
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -66,8 +66,8 @@ El desafío se centra en evaluar la capacidad de:
 ## Instalación
 
 ```bash
-cd cediaFeedChallenge
-npm install or yarn install
+cd react-native-challenge-main
+npm install # o yarn install
 ```
 
 ## Android
@@ -88,7 +88,7 @@ npm start
 npm run ios
 ```
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -130,7 +130,7 @@ src
  └── utils
 ```
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -146,9 +146,18 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 - **Cobertura de tests aumentada al 48.63%.**
 - **Rendimiento de búsqueda mejorado con debounce.**
 - **Persistencia de favoritos confiable mediante AsyncStorage.**
-- **Funcionalidad de "Salir" añadida al Tab Bar.**
+- **Mejora en la búsqueda para que sea más específica.**
+- **Mejora mensaje cuando no se encuentran artículos.**
+- **Mejora en la parte del detalle de la noticia deje un video especifico como fallback y agregue un par de videos mas que se cargan de forma aleatoria en el feed.**
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
+
+### Propuesta de mejoras (No implementadas)
+
+- **Agregar  un boton de salir en el tabbar.**
+- **Agregar  un bootsplashh al iniciar la aplicacion.**
+
+
 
 ---
 
@@ -198,7 +207,7 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 **Ubicación:** `ios/Podfile`  
 **Impacto:** Fallo al ejecutar `pod install` debido a un workaround obsoleto.
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -207,43 +216,43 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 ## Fix 1 — Persistencia de Favoritos
 Se creó `src/storage/favoritesStorage.ts` para manejar correctamente `loadFavoriteKeys()` y `saveFavoriteKeys()`.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/8064dc19f0db0a076f1923fb18f493841f5edb45
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/8064dc19f0db0a076f1923fb18f493841f5edb45)
 
 
 ## Fix 2 — Búsqueda con Debounce
 Se implementó un `setTimeout` con limpieza (cleanup) para retrasar las búsquedas **500ms**.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/9948d32fd6dc3525fe7d469484a79fe1920941bc
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/9948d32fd6dc3525fe7d469484a79fe1920941bc)
 
 ## Fix 3 — Reemplazo en lugar de Concatenación
 Se cambió `state.items.concat()` por `state.items = action.payload` para evitar duplicación.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/2000e64de075b48a61b752783792011457feb2fc
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/2000e64de075b48a61b752783792011457feb2fc)
 
 ## Fix 4 — Claves de Favoritos Únicas
 Se cambió el identificador de `title` a `String(article.id)`.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/839028d937db287e55a2ca60676e3d6dcad09b9e
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/839028d937db287e55a2ca60676e3d6dcad09b9e)
 
 ## Fix 5 — Videos Dinámicos
 Se implementó una lógica de selección basada en el ID: `video = SAMPLE_VIDEOS[id % SAMPLE_VIDEOS.length]`.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/47aeef4348abf29bc9536e5eee63e9608bb9b8cb
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/47aeef4348abf29bc9536e5eee63e9608bb9b8cb)
 
 ## Fix 6 — Error de Java Home
 Error al intentar correr la aplicación por ruta de Java incorrecta.
-Solución:** Actualizar `gradle.properties` con la ruta correcta en `org.gradle.java.home`.
+**Solución:** Actualizar `gradle.properties` con la ruta correcta en `org.gradle.java.home`.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/77992d25b271ab6505da1a3cdb14e24b6c8e8d30
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/77992d25b271ab6505da1a3cdb14e24b6c8e8d30)
 
 ## Fix 7 — Versión de SDK
 Desajuste en la versión recomendada del SDK.
-Solución:** Actualizar `compileSdkVersion` en `build.gradle`.
+**Solución:** Actualizar `compileSdkVersion` en `build.gradle`.
 
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/e476ac73d384c0e961a1d9fc681be1cf7d63f16b
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/e476ac73d384c0e961a1d9fc681be1cf7d63f16b)
 
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -251,21 +260,21 @@ Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/e476ac73d384c0e9
 
 ### 1 — Eliminación de useMemo innecesarios
 Se simplificó la lógica en `ArticleDetailScreen.tsx` donde el memoing no aportaba beneficios.
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/b1a8b2cda04ec7439db1ed2e8f6fb34d04488c62
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/b1a8b2cda04ec7439db1ed2e8f6fb34d04488c62)
 
 ### 2 — Mejora de Mocks en Tests
 Se estandarizaron los mocks en `__tests__/articlesSlice.test.ts` para pruebas más predecibles.
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/4dcb75704d6efff41a4be56a2acb16323c9cf676
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/4dcb75704d6efff41a4be56a2acb16323c9cf676)
 
-### 3 — Mejora en la busqueda para que sea mas especifica
-Se realizo una modificacion en el archivo newsAPI para que busque dentro del titulo del articulo todas las palabras que se ingresan en el input de busqueda.
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/ea7276cd9e5c59abc20fb0a70473506129c87946
+### 3 — Mejora en la búsqueda para que sea más específica
+Se realizó una modificación en el archivo `newsApi.ts` para que busque dentro del título del artículo todas las palabras que se ingresan en el input de búsqueda.
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/ea7276cd9e5c59abc20fb0a70473506129c87946)
 
-### 4 — Mejora mensaje cuando no se encuentran articulos
-Se realizo un agregado en la screen de Feeds para que en caso de que no se encuentre el titulo buscado aparezca un mensaje que diga "No hay ninguna noticia que coincida con la búsqueda".
-Commit: https://github.com/ramirotule/mediaFeedChallenge/commit/f3a322ab47ef4152492ea525e86b9bcace886400
+### 4 — Mejora mensaje cuando no se encuentran artículos
+Se realizó un agregado en la screen de Feed para que, en caso de que no se encuentre el título buscado, aparezca un mensaje que diga "No hay ninguna noticia que coincida con la búsqueda".
+[Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/f3a322ab47ef4152492ea525e86b9bcace886400)
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -285,7 +294,7 @@ Todos los tests pasan correctamente.
 
 ![Test Coverage](src/assets/test/test-coverage.png)
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -298,7 +307,7 @@ Se utilizó `createAsyncThunk` para gestionar los flujos de estado asíncronos d
 - IDs de Artículos → `number`
 - Claves de Favoritos → `string`
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -308,12 +317,12 @@ La IA se utilizó como **asistente de desarrollo**, principalmente para:
 - Analizar errores en el Podfile y crashes en iOS.
 - Generar mocks para las pruebas unitarias.
 - Estructurar notas de depuración.
-- Solución al problema de compilación en iOS ([Ver archivo](Fixing%20pod%20install%20error.md)).
-- Solución al crash de lanzamiento en iOS ([Ver archivo](Fixing%20ios%20crash%20error.md)).
+- Solución al problema de compilación en iOS ([Ver archivo](src/assets/IA/prompt-pod-issue.md)).
+- Solución al crash de lanzamiento en iOS ([Ver archivo](src/assets/IA/prompt-app-ios-crash.md)).
 
 Todas las decisiones arquitectónicas y de depuración finales se tomaron manualmente.
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 
@@ -325,7 +334,7 @@ Todas las decisiones arquitectónicas y de depuración finales se tomaron manual
 2. **Crash al iniciar (bundleURL):**
    - **Solución:** Renombrar el método en `AppDelegate.mm` a `bundleURL` para compatibilidad con React Native 0.74+. ([Ver solución](src/prompt-app-ios-crash.md)).
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
 # Preguntas & Respuestas
@@ -345,11 +354,10 @@ Todas las decisiones arquitectónicas y de depuración finales se tomaron manual
 **4. Cómo validaste que el código cumple con lo pedido y es de calidad.**
 - Corriendo `npm test -- --coverage` para asegurar el cumplimiento del KPI de testing.
 - Testing manual en simulador (haciendo scroll, buscando términos aleatorios, marcando favoritos y reiniciando la app para ver la persistencia).
-- Revisión de la pestaña Network en el debugger para verificar que el Debounce realmente funcionara.
+- Revisión de la pestaña Network en el debugger para verificar que el debounce realmente funcionara.
 
 **5. Si usaste código sugerido por IA, qué adaptaciones le hiciste y por qué.**
 - En el código de los tests sugeridos por la IA, tuve que adaptar los mocks porque mi store usa `useAppDispatch` y `useAppSelector` tipados, y la sugerencia genérica no los tomaba en cuenta. Tuve que mockear los hooks de `src/store/hooks.ts` manualmente.
-- En el Podfile, la IA sugirió borrar varias líneas de Flipper, pero yo preferí mantenerlas y ajustarlas para que no rompieran el build, ya que Flipper es útil para debugear red y logs.
 
-⬆️ [Volver al índice](#tabla-de-contenidos)
+### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
