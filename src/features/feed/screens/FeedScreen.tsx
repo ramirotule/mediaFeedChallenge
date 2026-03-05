@@ -71,7 +71,7 @@ export function FeedScreen({navigation}: Props) {
 
       <FlatList
         data={data}
-        keyExtractor={(_, index) => String(index)}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({item}) => (
           <ArticleListItem
             article={item}
