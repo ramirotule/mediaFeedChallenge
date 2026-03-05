@@ -65,8 +65,8 @@ El desafío se centra en evaluar la capacidad de:
 ## Instalación
 
 ```bash
-cd MediaFeedChallenge
-npm install
+cd cediaFeedChallenge
+npm install or yarn install
 ```
 
 ## Android
@@ -107,20 +107,22 @@ src
  │   │   └── prompt-documentacion.png
  │   └── tests
  │       └── test-coverage.png  
+ ├── components
+ │   
+ ├── features
+ │       └── favorites
+ │       └── feed
+ ├── navigation
+ │   └── AppNavigator.tsx (Navegación principal)
+ ├── storage
+ │   └── favoritesStorage.ts (Almacenamiento de favoritos)
  ├── store
  │   ├── slices (Reducers y acciones de Redux)
  │   └── store.ts (Configuración de la tienda)
  │
- ├── features (Módulos por funcionalidad)
- │   ├── feed
- │   ├── favorites
- │   └── article
+ ├── types 
  │
- ├── components
- │   └── Componentes reutilizables
- │
- └── storage
-     └── Wrapper de AsyncStorage
+ └── utils
 ```
 
 ⬆️ [Volver al índice](#tabla-de-contenidos)
