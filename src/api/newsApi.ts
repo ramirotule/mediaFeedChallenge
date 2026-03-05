@@ -45,7 +45,7 @@ export async function fetchLatestArticles(query: string): Promise<Article[]> {
   const allArticles = rawResults.map(a => {
     const shouldDropImage = a.id % 5 === 0;
     const shouldHaveVideo = a.id % 7 === 0;
-
+    console.log(a.id," - El articulo: ", a.title, "tiene video ?: ----> ", shouldHaveVideo);
     return {
       id: a.id,
       title: a.title,
@@ -61,14 +61,24 @@ export async function fetchLatestArticles(query: string): Promise<Article[]> {
     } satisfies Article;
   });
 
+  // Deduplicación por título para evitar mostrar la misma noticia repetida (común en sindicación de noticias)
+  const seenTitles = new Set<string>();
+  const uniqueArticles = allArticles.filter(article => {
+    if (seenTitles.has(article.title)) {
+      return false;
+    }
+    seenTitles.add(article.title);
+    return true;
+  });
+
   if (trimmedQuery.length === 0) {
-    return allArticles.slice(0, 20);
+    return uniqueArticles.slice(0, 20);
   }
 
   // Filtro estricto: todas las palabras deben estar en el título
   const queryWords = trimmedQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
   
-  const filtered = allArticles.filter(article => {
+  const filtered = uniqueArticles.filter(article => {
     const title = article.title.toLowerCase();
     const matchesAll = queryWords.every(word => title.includes(word));
     return matchesAll;
