@@ -23,25 +23,28 @@ type SpaceflightResponse = {
 
 const SAMPLE_VIDEOS = [
   'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
   'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
   'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
 ];
 
 export async function fetchLatestArticles(query: string): Promise<Article[]> {
-  // API pública sin auth. Cuando query es vacío, devuelve los últimos artículos.
+  const trimmedQuery = query.trim();
+
   const params: Record<string, string | number> = {
-    limit: 20,
+    limit: trimmedQuery.length > 0 ? 100 : 20,
   };
-  if (query.trim().length > 0) {
-    params.search = query;
+  
+  if (trimmedQuery.length > 0) {
+    params.search = trimmedQuery;
   }
 
   const response = await client.get<SpaceflightResponse>('/articles/', {params});
-  return response.data.results.map(a => {
+  const rawResults = response.data.results;
+
+  // Mapeamos primero para tener el objeto final
+  const allArticles = rawResults.map(a => {
     const shouldDropImage = a.id % 5 === 0;
     const shouldHaveVideo = a.id % 7 === 0;
-    console.log("Video ID: ", a.id, " Title: ", a.title, " Debe tener video ?: ", shouldHaveVideo);
 
     return {
       id: a.id,
@@ -57,4 +60,19 @@ export async function fetchLatestArticles(query: string): Promise<Article[]> {
         : null,
     } satisfies Article;
   });
+
+  if (trimmedQuery.length === 0) {
+    return allArticles.slice(0, 20);
+  }
+
+  // Filtro estricto: todas las palabras deben estar en el título
+  const queryWords = trimmedQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
+  
+  const filtered = allArticles.filter(article => {
+    const title = article.title.toLowerCase();
+    const matchesAll = queryWords.every(word => title.includes(word));
+    return matchesAll;
+  });
+  
+  return filtered.slice(0, 20);
 }

@@ -38,9 +38,13 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(loadArticles.pending, state => {
+      .addCase(loadArticles.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
+        // Si hay una búsqueda activa, limpiamos los resultados anteriores para evitar confusión
+        if (state.query.trim().length > 0) {
+          state.items = [];
+        }
       })
       .addCase(loadArticles.fulfilled, (state, action) => {
         state.status = 'succeeded';
