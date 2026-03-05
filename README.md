@@ -148,7 +148,8 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 - **Persistencia de favoritos confiable mediante AsyncStorage.**
 - **Mejora en la búsqueda para que sea más específica.**
 - **Mejora mensaje cuando no se encuentran artículos.**
-- **Mejora en la parte del detalle de la noticia deje un video especifico como fallback y agregue un par de videos mas que se cargan de forma aleatoria en el feed.**
+- **Deduplicación de resultados de búsqueda por título.**
+- **Mejora en la parte del detalle de la noticia: se dejó un video específico como fallback y se agregaron más videos que se cargan de forma aleatoria en el feed.**
 
 ### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
@@ -207,6 +208,11 @@ Durante el proceso de desarrollo, se realizó un análisis completo del código 
 **Ubicación:** `ios/Podfile`  
 **Impacto:** Fallo al ejecutar `pod install` debido a un workaround obsoleto.
 
+### 7 — Resultados de búsqueda duplicados
+**Ubicación:** `src/api/newsApi.ts`  
+**Problema:** El endpoint de la API muchas veces devuelve la misma noticia publicada en diferentes sitios (misma noticia, diferente ID).  
+**Impacto:** Experiencia de usuario confusa con resultados idénticos en el feed.
+
 ### ⬆️ [Volver al índice](#tabla-de-contenidos)
 
 ---
@@ -250,6 +256,9 @@ Desajuste en la versión recomendada del SDK.
 **Solución:** Actualizar `compileSdkVersion` en `build.gradle`.
 
 [Commit](https://github.com/ramirotule/mediaFeedChallenge/commit/e476ac73d384c0e961a1d9fc681be1cf7d63f16b)
+
+## Fix 8 — Deduplicación y Mejora de Keys
+Se utilizó la IA para entender que el endpoint devolvía la misma noticia en diferentes portales. Se implementó una lógica de filtrado para asegurar títulos únicos y se cambió el `keyExtractor` de `index` (mala práctica) al `id` real de la noticia.
 
 
 ### ⬆️ [Volver al índice](#tabla-de-contenidos)
@@ -317,6 +326,7 @@ La IA se utilizó como **asistente de desarrollo**, principalmente para:
 - Analizar errores en el Podfile y crashes en iOS.
 - Generar mocks para las pruebas unitarias.
 - Estructurar notas de depuración.
+- Entender el motivo de los resultados duplicados en el feed y aplicar una lógica de filtrado por título.
 - Solución al problema de compilación en iOS ([Ver archivo](src/assets/IA/prompt-pod-issue.md)).
 - Solución al crash de lanzamiento en iOS ([Ver archivo](src/assets/IA/prompt-app-ios-crash.md)).
 
@@ -339,8 +349,8 @@ Todas las decisiones arquitectónicas y de depuración finales se tomaron manual
 ---
 # Preguntas & Respuestas
 **1. Qué partes del desarrollo resolviste con ayuda de IA y cuáles de manera manual.**
-- **IA:** La usé principalmente para el análisis inicial de los errores de compilación (especialmente el `Podfile` de iOS que estaba corrupto) y para organizar las notas de los bugs detectados durante el testing manual (QA). También me sugirió estructuras base para los mocks de `AsyncStorage` en los tests.
-- **Manual:** El debugging en tiempo real, la implementación del debounce (aunque es un patrón conocido), la corrección de la lógica de duplicación en el store y la decisión de cambiar `title` por `id` en favoritos. La validación final y el "feeling" de la app fueron 100% manuales.
+- **IA:** La usé principalmente para el análisis inicial de los errores de compilación (especialmente el `Podfile` de iOS que estaba corrupto), para organizar las notas de los bugs detectados y para entender por qué aparecían resultados duplicados en la búsqueda (descubriendo que el endpoint devolvía la misma noticia en distintos sitios). También me sugirió estructuras base para los mocks de `AsyncStorage` en los tests.
+- **Manual:** El debugging en tiempo real, la implementación del debounce, la deduplicación lógica por título, la corrección de la duplicación en el store y la decisión de cambiar `title` por `id` en favoritos y en el `keyExtractor` de las listas. La validación final y el "feeling" de la app fueron 100% manuales.
 
 **2. Qué prompts/pedidos usaste o cómo te ayudó la IA en tu proceso.**
 - Use **GitHub Copilot** directamente en VS Code dándole contexto del archivo `Podfile` para que detectara por qué fallaba el `pod install`.
